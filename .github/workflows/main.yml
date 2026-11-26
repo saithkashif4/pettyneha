@@ -1,0 +1,34 @@
+
+name: Windows RDP Environment
+
+on:
+  workflow_dispatch:
+
+jobs:
+  windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Windows Information
+        shell: pwsh
+        run: |
+          Get-ComputerInfo |
+            Select-Object WindowsProductName,
+            WindowsVersion,
+            OsArchitecture
+
+      - name: Check RDP Service
+        shell: pwsh
+        run: |
+          Get-Service -Name TermService
+
+      - name: Check Network
+        shell: pwsh
+        run: |
+          Get-NetIPConfiguration
+
+      - name: Workflow Completed
+        run: echo "Windows environment is ready"
